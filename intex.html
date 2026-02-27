@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hemanth Gowda K R - Software Developer</title>
+    <meta name="description" content="Portfolio of Hemanth Gowda K R, a Software Developer specializing in Java, Python, Web Development, and Machine Learning.">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="sidebar glass">
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="#about" class="nav-link">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span class="link-text">About</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#skills" class="nav-link">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    <span class="link-text">Skills</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#projects" class="nav-link">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span class="link-text">Projects</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#education" class="nav-link">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                    <span class="link-text">Education</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#achievements" class="nav-link">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                    <span class="link-text">Achievements</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#contact" class="nav-link">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    <span class="link-text">Contact</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        
+        <section id="about" class="hero section-spacing">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2 class="text-blue-light hero-name">I'm, Hemanth Gowda K R</h2>
+                    <h1 class="glow-text">Software Developer</h1>
+                    <p class="objective-text">
+                        Motivated and detail-oriented Software Developer with strong foundation in programming, web development,databases, and software engineering. Seeking an entry-level role to apply problem-solving skills, learn new technologies, and contribute to building efficient, user-focused applications while growing as part of a dynamic development team and supporting the organization’s success.
+                    </p>
+                    <div class="btn-group">
+                        <a href="https://drive.google.com/file/d/1swRz6NTU_zPW_S4gXtRQa7x_4yzChAuw/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-primary glass glow-hover">View Resume</a>
+                        <a href="#projects" class="btn btn-secondary glass glow-hover">View My Work</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="myimg.jpeg" alt="Hemanth Gowda K R" class="profile-photo glow-border">
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section-spacing">
+            <h2 class="section-title glow-text">Technical Skills</h2>
+            
+            <div class="filter-group">
+                <button class="skill-btn active" data-category="all">All Skills</button>
+                <button class="skill-btn" data-category="languages">Languages</button>
+                <button class="skill-btn" data-category="frontend">Frontend</button>
+                <button class="skill-btn" data-category="tools">Tools & Platforms</button>
+            </div>
+
+            <div class="chart-container mt-8">
+                <canvas id="skillsChart" aria-label="Radar chart showing technical skills proficiency" role="img"></canvas>
+            </div>
+        </section>
+
+        <section id="projects" class="section-spacing">
+            <h2 class="section-title glow-text">Projects</h2>
+            <div class="project-slider-wrapper">
+                <button id="scrollLeft" class="scroll-btn left-btn" aria-label="Scroll Left">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <div class="grid-container">
+                    <!-- Project Cards -->
+                <article class="card glass card-glow">
+                    <h3>Letters and Ladders</h3>
+                    <h4 class="text-blue-light">Dyslexia Learning App</h4>
+                    <p>Designed a mobile-based educational application for children (ages 5 to 10) with early signs of dyslexia, integrating game-based learning, phonics practice, and interactive puzzles. Implemented curriculum-aligned chapters, voice guidance, dyslexia-friendly fonts, and progress tracking.</p>
+                </article>
+                <article class="card glass card-glow">
+                    <h3>Wildfire Detection System</h3>
+                    <h4 class="text-blue-light">Python / OpenCV / TensorFlow</h4>
+                    <p>Developed a real-time wildfire detection application using Python, OpenCV, and TensorFlow. Applied computer vision and machine learning techniques to detect smoke and fire. Integrated an alert system and front-end interface for real-time visualization.</p>
+                </article>
+                <article class="card glass card-glow">
+                    <h3>Pet Adoption System</h3>
+                    <h4 class="text-blue-light">RDBMS / MySQL</h4>
+                    <p>Designed and implemented RDBMS using MySQL. Created ER diagrams, applied database normalization, and optimized queries. Enabled pet browsing, adopter registration, and adoption tracking.</p>
+                </article>
+                <article class="card glass card-glow">
+                    <h3>Web Applications</h3>
+                    <h4 class="text-blue-light">HTML / CSS / JS / APIs</h4>
+                    <p>Built responsive projects including an E-commerce page, To-do list app, Quiz App, Expense tracker, and Weather tracker. Developed a responsive landing page optimized for all devices showcasing travel content with modern UI/UX design.</p>
+                </article>
+                <article class="card glass card-glow">
+                    <h3>Adventure Landing Page</h3>
+                    <h4 class="text-blue-light">HTML / CSS / JS</h4>
+                    <p>A responsive and visually engaging web page featuring modern design aesthetics. Deployed on Netlify for high performance and accessibility.<br><br><a href="https://gilded-unicorn-420793.netlify.app/" target="_blank" rel="noopener noreferrer" class="btn btn-primary glass glow-hover" style="display: inline-block; padding: 8px 20px; font-size: 0.9rem; margin-top: 10px;">View Live Demo ↗</a></p>
+                </article>
+                </div>
+                <button id="scrollRight" class="scroll-btn right-btn" aria-label="Scroll Right">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+            <div class="text-center mt-8">
+                <a href="https://github.com/Hemanth-2724" target="_blank" rel="noopener noreferrer" class="btn btn-secondary glass glow-hover">View More on GitHub</a>
+            </div>
+        </section>
+
+        <section id="education" class="section-spacing">
+            <h2 class="section-title glow-text">Education</h2>
+            <div class="grid-container-2">
+                <article class="card glass card-glow">
+                    <span class="badge">Dec 2022 - Aug 2026</span>
+                    <h3>B.E. in Information Science</h3>
+                    <h4 class="text-blue-light">Dr. Ambedkar Institute of Technology</h4>
+                    <p>Bangalore, Karnataka, India<br><strong>CGPA:</strong> 8.69</p>
+                </article>
+                <article class="card glass card-glow">
+                    <span class="badge">2020 - 2022</span>
+                    <h3>Pre-University Education</h3>
+                    <h4 class="text-blue-light">Jnana Bharathi PU College</h4>
+                    <p>Kunigal, Tumakuru<br><strong>Percentage:</strong> 94.5%</p>
+                </article>
+                <article class="card glass card-glow">
+                    <span class="badge">2019 - 2020</span>
+                    <h3>10th Standard</h3>
+                    <h4 class="text-blue-light">BGS Public High School</h4>
+                    <p>Kunigal, Tumakuru<br><strong>Percentage:</strong> 89.6%</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="achievements" class="section-spacing">
+            <h2 class="section-title glow-text">Achievements</h2>
+            <div class="grid-container-2">
+                <article class="card glass card-glow text-center">
+                    <div class="icon-wrapper">🏆</div>
+                    <h3>GenAI Study Jams 2024 & 2025</h3>
+                    <p>Participated in GenAI Study Jams organized by Google Developer Groups (GDG) at Dr. Ambedkar Institute of Technology.<br><br><a href="https://drive.google.com/file/d/14lRVxP9fbMLxkq9mz1nDPA9JazqqyPLF/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="certificate-link">View Certificate<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a></p>
+                </article>
+                <article class="card glass card-glow text-center">
+                    <div class="icon-wrapper">🚀</div>
+                    <h3>TechSprint Hackathon Top 10</h3>
+                    <p>Participated in TechSprint hackathon organized by Google Developer Groups (GDG), Dr. AIT, and was selected among the top 10 teams.<br><br><a href="https://drive.google.com/file/d/1xst3M4Y7DzIbX5qzc61fUeMV-607QOdq/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="certificate-link">View Certificate<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a></p>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="contact" class="footer mt-12">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title glow-text">Get In Touch</h2>
+                <p class="contact-subtext">
+                    I'm currently looking for new opportunities and my inbox is always open.
+                    Whether you have a question or just want to say hi, I'll try my best to get back to you!
+                </p>
+                <a href="mailto:hemanth2742004@gmail.com" class="btn btn-primary glass glow-hover contact-btn">Say Hello</a>
+                
+                <div class="social-icons">
+                    <a href="https://github.com/Hemanth-2724" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/hemanth-gowda-k-r-1a83ba2b2" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                    <a href="https://www.instagram.com/hemanth_gowda_kr?igsh=MTJiNjlseGp0ODUxdw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                </div>
+                <p class="copyright">© 2026 Hemanth Gowda K R. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
