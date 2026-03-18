@@ -104,6 +104,13 @@ body:has(button:hover) .cursor-ring {
 }
 body:has(a:hover) .cursor-dot { background: var(--teal); }
 
+.cursor-ring.clicking {
+    width: 72px !important;
+    height: 72px !important;
+    border-color: var(--cyan-bright) !important;
+    background: rgba(99, 179, 237, 0.15);
+}
+
 /* ── PARTICLE CANVAS ── */
 #particleCanvas {
     position: fixed;
@@ -387,7 +394,6 @@ body:has(a:hover) .cursor-dot { background: var(--teal); }
     font-family: var(--font-mono);
     font-size: 15px;
     color: var(--cyan-bright);
-    min-width: 200px;
 }
 .typed-cursor {
     font-family: var(--font-mono);
@@ -427,6 +433,10 @@ body:has(a:hover) .cursor-dot { background: var(--teal); }
     border: none;
     position: relative;
     overflow: hidden;
+}
+.btn:active, .skill-btn:active, .scroll-btn:active, .social-link:active, .card-link:active, .certificate-link:active {
+    transform: scale(0.95) !important;
+    transition: transform 0.1s ease !important;
 }
 .btn-primary {
     background: linear-gradient(135deg, var(--cyan), var(--teal), var(--cyan));
@@ -497,10 +507,12 @@ body:has(a:hover) .cursor-dot { background: var(--teal); }
 .hero-visual {
     position: relative;
     animation: fadeSlideIn 0.8s ease 0.4s both;
+    transform-style: preserve-3d;
 }
 .photo-frame {
     position: relative;
     width: 320px; height: 320px;
+    transform: translateZ(20px);
 }
 .frame-ring {
     position: absolute;
@@ -561,14 +573,15 @@ body:has(a:hover) .cursor-dot { background: var(--teal); }
     color: var(--text-primary);
     white-space: nowrap;
     box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    transform: translateZ(40px);
 }
 .floating-badge i { font-size: 16px; }
 .badge-java { top: 10%; right: -30px; animation: float-badge 5s ease-in-out infinite; }
 .badge-python { bottom: 20%; right: -40px; animation: float-badge 5s ease-in-out 1.5s infinite; }
 .badge-react { bottom: 5%; left: -20px; animation: float-badge 5s ease-in-out 3s infinite; }
 @keyframes float-badge {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    0%, 100% { transform: translateY(0) translateZ(40px); }
+    50% { transform: translateY(-8px) translateZ(40px); }
 }
 
 /* Scroll Indicator */
@@ -860,7 +873,7 @@ body:has(a:hover) .cursor-dot { background: var(--teal); }
     opacity: 0;
     transition: opacity 0.3s;
 }
-.project-card:hover .card-shine { opacity: 1; }
+.tilt-card:hover .card-shine { opacity: 1; }
 
 /* ── EXPERIENCE ── */
 .experience-container { max-width: 820px; margin: 0 auto; }
@@ -1290,7 +1303,12 @@ body:has(a:hover) .cursor-dot { background: var(--teal); }
     .btn { justify-content: center; width: 100%; }
     .hero-visual { order: -1; }
     .photo-frame { width: 200px; height: 200px; }
-    .floating-badge { display: none; }
+    
+    .floating-badge {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+    .floating-badge i { font-size: 14px; }
 
     .filter-group { flex-wrap: wrap; width: 100%; gap: 8px; justify-content: center; padding: 8px; }
     .skill-btn { flex: 1 1 calc(50% - 8px); text-align: center; padding: 10px; font-size: 12px; }

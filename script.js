@@ -17,6 +17,37 @@ document.addEventListener('DOMContentLoaded', function () {
             ring.style.top  = ringY + 'px';
             requestAnimationFrame(animateRing);
         })();
+
+        document.addEventListener('mousedown', () => ring.classList.add('clicking'));
+        // Synthesize a futuristic "tick" sound for the click using the Web Audio API
+        let audioCtx;
+        const playClickSound = () => {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, audioCtx.currentTime); // High pitch start
+                osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.1); // Quick drop
+                
+                gainNode.gain.setValueAtTime(0.03, audioCtx.currentTime); // Low, subtle volume
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1); // Fade out
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.1);
+            } catch (e) { /* Ignore if audio is blocked by the browser */ }
+        };
+
+        document.addEventListener('mousedown', () => {
+            ring.classList.add('clicking');
+            playClickSound();
+        });
+        document.addEventListener('mouseup', () => ring.classList.remove('clicking'));
     }
 
     /* ─── PARTICLE CONSTELLATION ─── */
@@ -297,6 +328,26 @@ document.addEventListener('DOMContentLoaded', function () {
             skillsChart.update();
             renderSkillBars(cat);
         });
+
+        // 3D Tilt Effect for filter buttons
+        btn.addEventListener('mousemove', e => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const cx = rect.width / 2;
+            const cy = rect.height / 2;
+            
+            const rotX = ((y - cy) / cy) * -15;
+            const rotY = ((x - cx) / cx) * 15;
+            
+            btn.style.transition = 'transform 0.1s ease-out, background 0.3s, color 0.3s, border 0.3s';
+            btn.style.transform = `perspective(400px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.05, 1.05, 1.05)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), background 0.3s, color 0.3s, border 0.3s';
+            btn.style.transform = 'perspective(400px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
     });
 
     /* ─── SCROLL SPY ─── */
@@ -372,9 +423,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const y = e.clientY - rect.top;
             const cx = rect.width / 2;
             const cy = rect.height / 2;
-            const rotX = ((y - cy) / cy) * -8;
-            const rotY = ((x - cx) / cx) * 8;
-            card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(8px)`;
+            
+            // Increased tilt intensity to 15 for a more noticeable rotation
+            const rotX = ((y - cy) / cy) * -15;
+            const rotY = ((x - cx) / cx) * 15;
+            
+            // Speed up the transform transition so it tightly follows the mouse
+            card.style.transition = 'transform 0.1s ease-out, border-color 0.4s ease, box-shadow 0.4s ease';
+            card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(8px) scale3d(1.03, 1.03, 1.03)`;
             // Update shine position
             const shine = card.querySelector('.card-shine');
             if (shine) {
@@ -383,9 +439,98 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         card.addEventListener('mouseleave', () => {
+            // Smoothly bounce back when the mouse leaves
+            card.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease, box-shadow 0.4s ease';
             card.style.transform = '';
         });
     });
+
+    /* ─── PRIMARY BUTTON 3D TILT ─── */
+    const resumeBtn = document.querySelector('.btn-primary');
+    if (resumeBtn) {
+        resumeBtn.addEventListener('mousemove', e => {
+            const rect = resumeBtn.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const cx = rect.width / 2;
+            const cy = rect.height / 2;
+            
+            const rotX = ((y - cy) / cy) * -12;
+            const rotY = ((x - cx) / cx) * 12;
+            
+            resumeBtn.style.transition = 'transform 0.1s ease-out, box-shadow 0.4s ease, background-position 0.4s ease';
+            resumeBtn.style.transform = `perspective(400px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+
+        resumeBtn.addEventListener('mouseleave', () => {
+            // Clear inline styles to allow CSS transition and hover states to seamlessly take back over
+            resumeBtn.style.transition = '';
+            resumeBtn.style.transform = '';
+        });
+    }
+
+    /* ─── HERO VISUAL 3D TILT ─── */
+    const heroVisual = document.querySelector('.hero-visual');
+    if (heroVisual) {
+        heroVisual.addEventListener('mousemove', e => {
+            const rect = heroVisual.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const cx = rect.width / 2;
+            const cy = rect.height / 2;
+            
+            // Adjust multiplier for stronger or softer tilt (15 degrees max)
+            const rotX = ((y - cy) / cy) * -15; 
+            const rotY = ((x - cx) / cx) * 15;
+            
+            heroVisual.style.transition = 'transform 0.1s ease-out';
+            heroVisual.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+
+        heroVisual.addEventListener('mouseleave', () => {
+            heroVisual.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)'; // Smooth bounce back
+            heroVisual.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
+    }
+
+    /* ─── ORBITING BADGES ─── */
+    const badges = document.querySelectorAll('.floating-badge');
+    if (badges.length > 0 && heroVisual) {
+        let angle = 0;
+        let isOrbitPaused = false;
+
+        // Pause the orbit when hovered to make them easier to look at
+        heroVisual.addEventListener('mouseenter', () => isOrbitPaused = true);
+        heroVisual.addEventListener('mouseleave', () => isOrbitPaused = false);
+
+        function animateOrbit() {
+            if (!isOrbitPaused) {
+                angle += 0.003;
+            }
+            
+            // Scale orbit radius dynamically based on screen size
+            const radius = window.innerWidth <= 768 ? 130 : (window.innerWidth <= 1024 ? 160 : 200);
+            
+            badges.forEach((badge, i) => {
+                const offset = angle + (i * 2 * Math.PI / badges.length);
+                const x = Math.cos(offset) * radius;
+                const y = Math.sin(offset) * radius;
+                
+                const floatY = Math.sin((Date.now() / 500) + i) * 8; // Maintain the bouncing effect
+                
+                badge.style.top = '50%';
+                badge.style.left = '50%';
+                badge.style.right = 'auto';
+                badge.style.bottom = 'auto';
+                badge.style.animation = 'none'; // Overrides CSS animation to avoid conflict
+                // Retain `translateZ` to keep the 3D parallax effect completely intact
+                badge.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y + floatY}px)) translateZ(40px)`;
+            });
+            requestAnimationFrame(animateOrbit);
+        }
+        animateOrbit();
+    }
 
     /* ─── SKILL BARS INTERSECTION OBSERVER ─── */
     const skillBarsContainer = document.getElementById('skillBars');
