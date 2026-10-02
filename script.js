@@ -609,10 +609,13 @@ document.addEventListener('DOMContentLoaded', function () {
     achCards.forEach(el => staggerObs.observe(el));
 
     /* ─── THEME TOGGLE ─── */
-    const themeToggle = document.getElementById('themeToggle');
-    const iconMoon = themeToggle?.querySelector('.icon-moon');
-    const iconSun  = themeToggle?.querySelector('.icon-sun');
-    const themeLabel = themeToggle?.querySelector('.theme-label');
+    const themeToggle       = document.getElementById('themeToggle');
+    const themeToggleMobile = document.getElementById('themeToggleMobile');
+    const iconMoon    = themeToggle?.querySelector('.icon-moon');
+    const iconSun     = themeToggle?.querySelector('.icon-sun');
+    const themeLabel  = themeToggle?.querySelector('.theme-label');
+    const mIconMoon   = themeToggleMobile?.querySelector('.icon-moon');
+    const mIconSun    = themeToggleMobile?.querySelector('.icon-sun');
     const html = document.documentElement;
 
     // Apply saved theme on load
@@ -621,25 +624,36 @@ document.addEventListener('DOMContentLoaded', function () {
     updateToggleUI(savedTheme);
 
     function updateToggleUI(theme) {
-        if (theme === 'light') {
-            if (iconMoon)  iconMoon.style.display  = 'none';
-            if (iconSun)   iconSun.style.display   = 'inline';
-            if (themeLabel) themeLabel.textContent  = 'Dark Mode';
-        } else {
-            if (iconMoon)  iconMoon.style.display  = 'inline';
-            if (iconSun)   iconSun.style.display   = 'none';
-            if (themeLabel) themeLabel.textContent  = 'Light Mode';
-        }
+        const isLight = theme === 'light';
+
+        // Desktop sidebar toggle icons
+        if (iconMoon)   iconMoon.style.display   = isLight ? 'none'   : 'inline';
+        if (iconSun)    iconSun.style.display     = isLight ? 'inline' : 'none';
+        if (themeLabel) themeLabel.textContent    = isLight ? 'Dark Mode' : 'Light Mode';
+
+        // Mobile toggle icons
+        if (mIconMoon)  mIconMoon.style.display   = isLight ? 'none'   : 'inline';
+        if (mIconSun)   mIconSun.style.display     = isLight ? 'inline' : 'none';
+    }
+
+    function applyTheme(next) {
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateToggleUI(next);
+        if (window._updateChartTheme) window._updateChartTheme();
     }
 
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            const current = html.getAttribute('data-theme') || 'dark';
-            const next = current === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
-            updateToggleUI(next);
-            if (window._updateChartTheme) window._updateChartTheme();
+            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+        });
+    }
+
+    if (themeToggleMobile) {
+        themeToggleMobile.addEventListener('click', () => {
+            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
         });
     }
 

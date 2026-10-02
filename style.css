@@ -1,4 +1,4 @@
-﻿/* ============================================
+/* ============================================
    HEMANTH GOWDA KR — PORTFOLIO
    Aesthetic: Dark Holographic / Neo-Noir
    Fonts: Syne (display) + Space Mono + DM Sans
@@ -1414,6 +1414,56 @@ body:has(a:hover) .cursor-dot { background: var(--teal); }
         display: flex; justify-content: center;
     }
     .photo-frame { width: 260px; height: 260px; }
+}
+
+/* ── MOBILE THEME TOGGLE ── */
+.mobile-theme-toggle {
+    display: none; /* hidden on desktop — sidebar toggle is used instead */
+}
+
+@media (max-width: 768px) {
+    .mobile-theme-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 1100;
+        width: 42px;
+        height: 42px;
+        background: rgba(13, 21, 38, 0.85);
+        border: 1px solid rgba(99,179,237,0.35);
+        border-radius: 50%;
+        color: #90cdf4;
+        cursor: pointer;
+        backdrop-filter: blur(16px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        transition: background 0.3s ease, border-color 0.3s ease,
+                    color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .mobile-theme-toggle:active {
+        transform: scale(0.92);
+    }
+
+    /* Light mode mobile toggle */
+    [data-theme="light"] .mobile-theme-toggle {
+        background: rgba(255,255,255,0.92);
+        border-color: rgba(37,99,235,0.3);
+        color: #2563eb;
+        box-shadow: 0 4px 20px rgba(37,99,235,0.15);
+    }
+
+    /* Light mode mobile sidebar pill */
+    [data-theme="light"] .sidebar {
+        background: rgba(255,255,255,0.94);
+        border-color: rgba(37,99,235,0.22);
+        box-shadow: 0 -4px 30px rgba(37,99,235,0.08), 0 10px 40px rgba(0,0,0,0.06);
+    }
+    [data-theme="light"] .nav-link.active {
+        background: rgba(37,99,235,0.12);
+        border-color: rgba(37,99,235,0.22);
+    }
 }
 
 @media (max-width: 768px) {
