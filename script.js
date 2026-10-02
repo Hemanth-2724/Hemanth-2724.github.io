@@ -244,17 +244,17 @@ document.addEventListener('DOMContentLoaded', function () {
     function getChartColors() {
         const isLight = document.documentElement.getAttribute('data-theme') === 'light';
         return {
-            accent:       isLight ? '#6366f1' : '#63b3ed',
-            accentBright: isLight ? '#a855f7' : '#90cdf4',
-            fillBg:       isLight ? 'rgba(99, 102, 241, 0.15)' : 'rgba(99,179,237,0.12)',
-            pointBorder:  isLight ? '#ffffff'  : '#090e1c',
-            labelColor:   isLight ? '#1e1b4b'  : '#f0f4ff',
-            gridColor:    isLight ? 'rgba(167, 139, 250, 0.15)' : 'rgba(255,255,255,0.04)',
-            angleColor:   isLight ? 'rgba(99, 102, 241, 0.18)'  : 'rgba(255,255,255,0.05)',
-            tooltipBg:    isLight ? 'rgba(255, 255, 255, 0.95)' : 'rgba(13,21,38,0.96)',
-            tooltipTitle: isLight ? '#4f46e5'  : '#63b3ed',
-            tooltipBody:  isLight ? '#1e1b4b'  : '#f0f4ff',
-            tooltipBorder:isLight ? 'rgba(167, 139, 250, 0.4)'  : 'rgba(99,179,237,0.3)',
+            accent:      isLight ? '#2563eb' : '#63b3ed',
+            accentBright: isLight ? '#1d4ed8' : '#90cdf4',
+            fillBg:      isLight ? 'rgba(37,99,235,0.10)' : 'rgba(99,179,237,0.12)',
+            pointBorder: isLight ? '#f5f7ff'  : '#090e1c',
+            labelColor:  isLight ? '#0f172a'  : '#f0f4ff',
+            gridColor:   isLight ? 'rgba(37,99,235,0.07)'  : 'rgba(255,255,255,0.04)',
+            angleColor:  isLight ? 'rgba(37,99,235,0.10)'  : 'rgba(255,255,255,0.05)',
+            tooltipBg:   isLight ? 'rgba(255,255,255,0.98)' : 'rgba(13,21,38,0.96)',
+            tooltipTitle:isLight ? '#2563eb'  : '#63b3ed',
+            tooltipBody: isLight ? '#0f172a'  : '#f0f4ff',
+            tooltipBorder:isLight? 'rgba(37,99,235,0.25)' : 'rgba(99,179,237,0.3)',
         };
     }
 
