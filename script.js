@@ -608,53 +608,139 @@ document.addEventListener('DOMContentLoaded', function () {
     }, { threshold: 0.1 });
     achCards.forEach(el => staggerObs.observe(el));
 
-    /* ─── THEME TOGGLE ─── */
+    /* ─── THEME TOGGLE WITH ANIMATION ─── */
     const themeToggle       = document.getElementById('themeToggle');
     const themeToggleMobile = document.getElementById('themeToggleMobile');
-    const iconMoon    = themeToggle?.querySelector('.icon-moon');
-    const iconSun     = themeToggle?.querySelector('.icon-sun');
-    const themeLabel  = themeToggle?.querySelector('.theme-label');
-    const mIconMoon   = themeToggleMobile?.querySelector('.icon-moon');
-    const mIconSun    = themeToggleMobile?.querySelector('.icon-sun');
-    const html = document.documentElement;
+    const navThemeToggle    = document.getElementById('navThemeToggle');
+    const overlay           = document.getElementById('themeTransitionOverlay');
+    const html              = document.documentElement;
+
+    const allToggles = [themeToggle, themeToggleMobile, navThemeToggle].filter(Boolean);
 
     // Apply saved theme on load
     const savedTheme = localStorage.getItem('theme') || 'dark';
     html.setAttribute('data-theme', savedTheme);
-    updateToggleUI(savedTheme);
+    updateToggleUI(savedTheme, false);
 
-    function updateToggleUI(theme) {
+    function updateToggleUI(theme, animateIcon = true) {
         const isLight = theme === 'light';
 
-        // Desktop sidebar toggle icons
-        if (iconMoon)   iconMoon.style.display   = isLight ? 'none'   : 'inline';
-        if (iconSun)    iconSun.style.display     = isLight ? 'inline' : 'none';
-        if (themeLabel) themeLabel.textContent    = isLight ? 'Dark Mode' : 'Light Mode';
+        allToggles.forEach(toggle => {
+            const moon = toggle.querySelector('.icon-moon');
+            const sun  = toggle.querySelector('.icon-sun');
+            const lbl  = toggle.querySelector('.theme-label');
 
-        // Mobile toggle icons
-        if (mIconMoon)  mIconMoon.style.display   = isLight ? 'none'   : 'inline';
-        if (mIconSun)   mIconSun.style.display     = isLight ? 'inline' : 'none';
+            if (moon) {
+                moon.style.display = isLight ? 'none' : 'inline-block';
+                if (animateIcon && !isLight) {
+                    moon.classList.remove('icon-animating');
+                    void moon.offsetWidth; // trigger reflow
+                    moon.classList.add('icon-animating');
+                }
+            }
+            if (sun) {
+                sun.style.display = isLight ? 'inline-block' : 'none';
+                if (animateIcon && isLight) {
+                    sun.classList.remove('icon-animating');
+                    void sun.offsetWidth; // trigger reflow
+                    sun.classList.add('icon-animating');
+                }
+            }
+            if (lbl) {
+                lbl.textContent = isLight ? 'Dark Mode' : 'Light Mode';
+            }
+        });
     }
 
-    function applyTheme(next) {
-        html.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-        updateToggleUI(next);
+    function applyThemeState(nextTheme, animateIcon = true) {
+        html.setAttribute('data-theme', nextTheme);
+        localStorage.setItem('theme', nextTheme);
+        updateToggleUI(nextTheme, animateIcon);
         if (window._updateChartTheme) window._updateChartTheme();
     }
 
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            applyTheme(next);
+    function triggerThemeTransition(clickX, clickY, targetTheme, callback) {
+        const x = clickX ?? (window.innerWidth / 2);
+        const y = clickY ?? (window.innerHeight / 2);
+
+        // Modern browsers View Transitions API (Chrome, Edge, Safari 18+)
+        if (document.startViewTransition) {
+            const endRadius = Math.hypot(
+                Math.max(x, window.innerWidth - x),
+                Math.max(y, window.innerHeight - y)
+            );
+
+            const transition = document.startViewTransition(() => {
+                callback();
+            });
+
+            transition.ready.then(() => {
+                document.documentElement.animate(
+                    {
+                        clipPath: [
+                            `circle(0px at ${x}px ${y}px)`,
+                            `circle(${endRadius}px at ${x}px ${y}px)`
+                        ]
+                    },
+                    {
+                        duration: 520,
+                        easing: 'cubic-bezier(0.2, 0.9, 0.3, 1)',
+                        pseudoElement: '::view-transition-new(root)'
+                    }
+                );
+            });
+        } else if (overlay) {
+            // Smooth ripple wave fallback for all other browsers
+            overlay.style.left = x + 'px';
+            overlay.style.top  = y + 'px';
+            overlay.className = 'theme-transition-overlay animating-' + targetTheme;
+
+            callback();
+
+            setTimeout(() => {
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.className = 'theme-transition-overlay';
+                    overlay.style.opacity = '';
+                }, 600);
+            }, 300);
+        } else {
+            callback();
+        }
+    }
+
+    let isDebouncing = false;
+    function handleToggleClick(e) {
+        if (isDebouncing) return;
+        isDebouncing = true;
+        setTimeout(() => { isDebouncing = false; }, 450);
+
+        const current = html.getAttribute('data-theme') || 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+
+        // Extract coordinates from click or button center for ripple origin
+        let clickX, clickY;
+        if (e && e.clientX && e.clientY && (e.clientX !== 0 || e.clientY !== 0)) {
+            clickX = e.clientX;
+            clickY = e.clientY;
+        } else if (e && e.currentTarget) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            clickX = rect.left + rect.width / 2;
+            clickY = rect.top + rect.height / 2;
+        }
+
+        triggerThemeTransition(clickX, clickY, next, () => {
+            applyThemeState(next, true);
         });
     }
 
-    if (themeToggleMobile) {
-        themeToggleMobile.addEventListener('click', () => {
-            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            applyTheme(next);
-        });
-    }
+    allToggles.forEach(btn => {
+        btn.addEventListener('click', handleToggleClick);
+        // Also support touchend for mobile devices where tap might be delayed
+        btn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            handleToggleClick(e);
+        }, { passive: false });
+    });
 
 });
