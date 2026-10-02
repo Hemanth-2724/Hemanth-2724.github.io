@@ -211,20 +211,28 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ─── SKILLS CHART ─── */
     const skillsData = {
         all: {
-            labels: ['Java', 'Python', 'JavaScript', 'HTML/CSS', 'Tailwind', 'Git/GitHub', 'VS Code'],
-            data: [85, 80, 85, 95, 85, 90, 95]
+            labels: ['Java', 'JavaScript', 'HTML', 'CSS', 'JSP', 'Spring Boot', 'MySQL', 'Git/GitHub', 'Postman'],
+            data: [90, 85, 95, 90, 80, 85, 85, 90, 85]
         },
         languages: {
-            labels: ['Java', 'Python', 'C', 'JavaScript'],
-            data: [85, 80, 75, 85]
+            labels: ['Java', 'JavaScript'],
+            data: [90, 85]
         },
         frontend: {
-            labels: ['HTML', 'CSS', 'Tailwind CSS', 'JavaScript'],
-            data: [95, 90, 85, 85]
+            labels: ['HTML', 'CSS', 'JSP'],
+            data: [95, 90, 80]
+        },
+        backend: {
+            labels: ['JEE', 'Java Servlets', 'Spring Core', 'Spring MVC', 'Spring Boot'],
+            data: [85, 85, 85, 85, 88]
+        },
+        database: {
+            labels: ['MySQL', 'JDBC', 'Hibernate'],
+            data: [85, 82, 80]
         },
         tools: {
-            labels: ['Git', 'GitHub', 'VS Code'],
-            data: [90, 90, 95]
+            labels: ['Git', 'GitHub', 'VS Code', 'Postman'],
+            data: [90, 90, 95, 85]
         }
     };
 
@@ -232,9 +240,28 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!chartEl) return;
     const ctx2 = chartEl.getContext('2d');
 
+    // Returns chart palette based on current theme
+    function getChartColors() {
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        return {
+            accent:      isLight ? '#2563eb' : '#63b3ed',
+            accentBright: isLight ? '#1d4ed8' : '#90cdf4',
+            fillBg:      isLight ? 'rgba(37,99,235,0.10)' : 'rgba(99,179,237,0.12)',
+            pointBorder: isLight ? '#f5f7ff'  : '#090e1c',
+            labelColor:  isLight ? '#0f172a'  : '#f0f4ff',
+            gridColor:   isLight ? 'rgba(37,99,235,0.07)'  : 'rgba(255,255,255,0.04)',
+            angleColor:  isLight ? 'rgba(37,99,235,0.10)'  : 'rgba(255,255,255,0.05)',
+            tooltipBg:   isLight ? 'rgba(255,255,255,0.98)' : 'rgba(13,21,38,0.96)',
+            tooltipTitle:isLight ? '#2563eb'  : '#63b3ed',
+            tooltipBody: isLight ? '#0f172a'  : '#f0f4ff',
+            tooltipBorder:isLight? 'rgba(37,99,235,0.25)' : 'rgba(99,179,237,0.3)',
+        };
+    }
+
     Chart.defaults.color = '#8892a4';
     Chart.defaults.font.family = "'Space Mono', monospace";
 
+    const c = getChartColors();
     const skillsChart = new Chart(ctx2, {
         type: 'radar',
         data: {
@@ -242,15 +269,15 @@ document.addEventListener('DOMContentLoaded', function () {
             datasets: [{
                 label: 'Proficiency',
                 data: skillsData.all.data,
-                backgroundColor: 'rgba(99,179,237,0.12)',
-                borderColor: '#63b3ed',
+                backgroundColor: c.fillBg,
+                borderColor: c.accent,
                 borderWidth: 1.5,
-                pointBackgroundColor: '#63b3ed',
-                pointBorderColor: '#090e1c',
+                pointBackgroundColor: c.accent,
+                pointBorderColor: c.pointBorder,
                 pointBorderWidth: 2,
                 pointRadius: 5,
                 pointHoverRadius: 8,
-                pointHoverBackgroundColor: '#90cdf4',
+                pointHoverBackgroundColor: c.accentBright,
             }]
         },
         options: {
@@ -260,11 +287,11 @@ document.addEventListener('DOMContentLoaded', function () {
             scales: {
                 r: {
                     min: 0, max: 100,
-                    angleLines: { color: 'rgba(255,255,255,0.05)', lineWidth: 1 },
-                    grid: { color: 'rgba(255,255,255,0.04)' },
+                    angleLines: { color: c.angleColor, lineWidth: 1 },
+                    grid: { color: c.gridColor },
                     pointLabels: {
                         font: { size: 12, weight: '700', family: "'Space Mono', monospace" },
-                        color: '#f0f4ff',
+                        color: c.labelColor,
                         padding: 12
                     },
                     ticks: { display: false, stepSize: 20 }
@@ -273,19 +300,39 @@ document.addEventListener('DOMContentLoaded', function () {
             plugins: {
                 legend: { display: false },
                 tooltip: {
-                    backgroundColor: 'rgba(13,21,38,0.96)',
-                    titleColor: '#63b3ed',
-                    bodyColor: '#f0f4ff',
-                    borderColor: 'rgba(99,179,237,0.3)',
+                    backgroundColor: c.tooltipBg,
+                    titleColor: c.tooltipTitle,
+                    bodyColor: c.tooltipBody,
+                    borderColor: c.tooltipBorder,
                     borderWidth: 1,
                     padding: 12,
-                    callbacks: {
-                        label: ctx => ` ${ctx.raw}% proficiency`
-                    }
+                    callbacks: { label: ctx => ` ${ctx.raw}% proficiency` }
                 }
             }
         }
     });
+
+    // Update chart colors when theme changes
+    function updateChartTheme() {
+        const nc = getChartColors();
+        const ds = skillsChart.data.datasets[0];
+        ds.backgroundColor = nc.fillBg;
+        ds.borderColor = nc.accent;
+        ds.pointBackgroundColor = nc.accent;
+        ds.pointBorderColor = nc.pointBorder;
+        ds.pointHoverBackgroundColor = nc.accentBright;
+        skillsChart.options.scales.r.angleLines.color = nc.angleColor;
+        skillsChart.options.scales.r.grid.color = nc.gridColor;
+        skillsChart.options.scales.r.pointLabels.color = nc.labelColor;
+        skillsChart.options.plugins.tooltip.backgroundColor = nc.tooltipBg;
+        skillsChart.options.plugins.tooltip.titleColor = nc.tooltipTitle;
+        skillsChart.options.plugins.tooltip.bodyColor = nc.tooltipBody;
+        skillsChart.options.plugins.tooltip.borderColor = nc.tooltipBorder;
+        skillsChart.update('none');
+    }
+
+    // Expose so theme toggle can call it
+    window._updateChartTheme = updateChartTheme;
 
     // Skill Bars
     function renderSkillBars(category) {
@@ -560,5 +607,40 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }, { threshold: 0.1 });
     achCards.forEach(el => staggerObs.observe(el));
+
+    /* ─── THEME TOGGLE ─── */
+    const themeToggle = document.getElementById('themeToggle');
+    const iconMoon = themeToggle?.querySelector('.icon-moon');
+    const iconSun  = themeToggle?.querySelector('.icon-sun');
+    const themeLabel = themeToggle?.querySelector('.theme-label');
+    const html = document.documentElement;
+
+    // Apply saved theme on load
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', savedTheme);
+    updateToggleUI(savedTheme);
+
+    function updateToggleUI(theme) {
+        if (theme === 'light') {
+            if (iconMoon)  iconMoon.style.display  = 'none';
+            if (iconSun)   iconSun.style.display   = 'inline';
+            if (themeLabel) themeLabel.textContent  = 'Dark Mode';
+        } else {
+            if (iconMoon)  iconMoon.style.display  = 'inline';
+            if (iconSun)   iconSun.style.display   = 'none';
+            if (themeLabel) themeLabel.textContent  = 'Light Mode';
+        }
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme') || 'dark';
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateToggleUI(next);
+            if (window._updateChartTheme) window._updateChartTheme();
+        });
+    }
 
 });
