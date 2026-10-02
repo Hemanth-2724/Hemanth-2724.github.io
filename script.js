@@ -94,9 +94,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
             draw() {
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(99,179,237,${this.alpha})`;
+                ctx.fillStyle = isLight ? `rgba(37,99,235,${this.alpha * 0.7})` : `rgba(99,179,237,${this.alpha})`;
                 ctx.fill();
             }
         }
@@ -105,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function drawParticles() {
             ctx.clearRect(0, 0, W, H);
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
             // Draw connections
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
@@ -112,11 +114,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     const dy = particles[i].y - particles[j].y;
                     const dist = Math.sqrt(dx*dx + dy*dy);
                     if (dist < CONNECT_DIST) {
-                        const alpha = (1 - dist / CONNECT_DIST) * 0.15;
+                        const alpha = (1 - dist / CONNECT_DIST) * (isLight ? 0.12 : 0.15);
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(99,179,237,${alpha})`;
+                        ctx.strokeStyle = isLight ? `rgba(37,99,235,${alpha})` : `rgba(99,179,237,${alpha})`;
                         ctx.lineWidth = 0.5;
                         ctx.stroke();
                     }
